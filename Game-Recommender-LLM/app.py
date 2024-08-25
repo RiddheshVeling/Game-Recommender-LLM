@@ -25,6 +25,9 @@ texts = text_splitter.split_documents(data)
 embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001", google_api_key=GOOGLE_API_KEY)
 llm = GoogleGenerativeAI(model="gemini-pro", google_api_key=GOOGLE_API_KEY)
 
+# Testing the embeddings
+embeddings.embed_query("Recent Open Source Project Lab - Group 26")
+
 # Passing the data to the Chroma DB Vector Database
 search = Chroma.from_documents(texts, embeddings)
 
