@@ -28,16 +28,19 @@ llm = GoogleGenerativeAI(model="gemini-pro", google_api_key=GOOGLE_API_KEY)
 # Passing the data to the Chroma DB Vector Database
 search = Chroma.from_documents(texts, embeddings)
 
+from langchain.prompts import ChatPromptTemplate
+# from langchain.chains import create_stuff_documents_chain, create_retrieval_chain
+
 # Creating a custom Chat Prompt Template
 prompt = ChatPromptTemplate([
-    ("system", "You are a Game Recommendation System. Respond to the user queries accordingly and recommend upto 3 games."),
-    ("user", "{input}")
+    ("system", "You are a Game Recommendation System. Respond to the user queries accordingly and recommend up to 3 games."),
+    ("user", "{input}\n\nContext: {context}")
 ])
 
 # Chaining our LLM with the Prompt
 chain = create_stuff_documents_chain(llm, prompt)
 
-# Setting up our ChromaDb as the retriver
+# Setting up our ChromaDb as the retriever
 retriever = search.as_retriever()
 retrieval_chain = create_retrieval_chain(retriever, chain)
 
